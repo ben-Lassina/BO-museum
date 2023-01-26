@@ -1,80 +1,63 @@
-;(function () {
-  
-    let canvas, ctx, defaultFillColour, randoFillColour, score
-  
-  
-    function begin () {
-      canvas = document.getElementById('gameCanvas')
-      gameText = document.getElementById('gameText')
-      ctx = canvas.getContext('2d')
-      score = Number(1)    
-  
-      
-      defaultFillColour = '#5DA1B3'
-      randoFillColour = '#FFF581'
-  
-      let gridObjects = generateGridOfShapes()
-  
-      
-      canvas.addEventListener('click', (e) => {
-  
-        
-        const canvasDimensions = canvas.getBoundingClientRect()
-        const clickPosition = {
-          x: Math.floor(e.clientX - canvasDimensions.left),
-          y: Math.floor(e.clientY - canvasDimensions.top)
-        }
-  
-    
+(function ()
+{
+  let canvas, ctx, defaultFillColour, randoFillColour, score
+  function begin () { 
+    console.log("!!");
+    canvas = document.getElementById('gameCanvas')
+    gameText = document.getElementById('gameText')
+    console.log(gameText);
+    ctx = canvas.getContext('2d')
+    score = Number(1);
+    defaultFillColour = '#5DA1B3'
+    randoFillColour = '#FFF581'
+    let gridObjects = generateGridOfShapes()
+    canvas.addEventListener('click', (e) => {
+      const canvasDimensions = canvas.getBoundingClientRect()
+      const clickPosition = {
+        x: Math.floor(e.clientX - canvasDimensions.left),
+        y: Math.floor(e.clientY - canvasDimensions.top)
+      }
+       
+        //game text en scoren
         let i, lostGame
-        for (i = 0 ; i < gridObjects.length ; i++ ) {
-          if(isInsideAFillColourObject(clickPosition, gridObjects[i], randoFillColour)){
-            if (score == 0) {
-              gameText.innerHTML = "mooi "
-            } else {
-              gameText.innerHTML = "goedzo " + score + " keer achter elkaar"
-            }
-            score = score + 1
-            
-            gridObjects = generateGridOfShapes()
-            lostGame = false
-            break
-          } 
-          else {
-            lostGame = true
+      for (i = 0 ; i < gridObjects.length ; i++ ) {
+        if(isInsideAFillColourObject(clickPosition, gridObjects[i], randoFillColour)){
+          if (score == 0) {
+            gameText.innerHTML = "Well done, you found it! Do it again? "
+          } else {
+            gameText.innerHTML = "Well done, you found it " + score + " times! Keep going!"
           }
-        } 
-  
-        if (lostGame){
-    
-          gameText.innerHTML = "opnieuw "
-          score = 0
+          score = score + 1
+          // generate a new grid, start the game again
+          gridObjects = generateGridOfShapes()
+          lostGame = false
+          break
+        } // end of isInsideAFillColourObject
+        else {
+          lostGame = true
         }
-  
-     });
-      
-    } 
-  
-      
-    
+      } // end gridObjects loop
+
+      if (lostGame){
+        // didn't click on the wildcard, reset the score
+        gameText.innerHTML = "Oh no! That wasn't it! Try again! "
+        score = 0
+      }
+      }); 
+    }     
+      //voor de grind van de vierkanten drukknoppen
     function generateGridOfShapes() {
       listOfShapes = [];
       
       let maxObjsHeight = 4
       let maxObjsWidth = 5
-  
-      
-      
       let sqMargin = 50 
       let sqHeight = 100
       let sqWidth = 100
-  
-      
-      
       let randoX = getRandomInRange(0, maxObjsWidth)
       let randoY = getRandomInRange(0, maxObjsHeight)
       let randoFill = ''
-  
+  //voor je muis
       let i, j, currX, currY, currWidth, currHeight, currShape, fillColour
       currXStart = 50
       currY = 50
@@ -102,9 +85,10 @@
   
       return listOfShapes
     } 
-  
-    
-    class Rectangle{
+
+    //de class voor de viekantjes
+    class Rectangle
+    {
       constructor(
         x = 0, y = 0,
         width = 0, height = 0,
@@ -174,21 +158,24 @@
     }
   
    
-    function isInsideAFillColourObject(point, gridObject, fillColor) {
+    function isInsideAFillColourObject(point, gridObject, fillColor) 
+    {
       return (
         (gridObject.getFillColor() == randoFillColour) &&
         (point.x >= gridObject.leftX()) && 
         (point.x <= gridObject.rightX()) && 
         (point.y >= gridObject.upperY()) &&
         (point.y <= gridObject.lowerY())
-      )
+      );
     }
   
-    function bindCanvasMousePos() {
+    function bindCanvasMousePos() 
+    {
       const canvasDimensions = canvas.getBoundingClientRect()
     }
   
  
-    document.addEventListener('DOMContentLoaded', begin)
+    document.addEventListener('DOMContentLoaded', begin);
   
-  })()
+  
+})();
