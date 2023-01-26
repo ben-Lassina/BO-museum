@@ -1,0 +1,7 @@
+font-family: 'Poppins', sans-serif;
+font-family: 'Press Start 2P', cursive;
+
+
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100&family=Press+Start+2P&display=swap"rel="stylesheet">
