@@ -86,6 +86,13 @@ figcaption{
     top: 60px;
     right: 30px;;
 }
+.topnav li{
+    position: absolute;
+    top: 120px;
+    right: 30px;;
+
+
+}
 
 .p {
     padding: 70px 0;
